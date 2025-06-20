@@ -1,13 +1,18 @@
-## 🛡️Threat Mitigation Plan: Brute Force Attempts on Internet-Facing VM
-### 📌 Summary
-For this project, we purposely exposed a virtual machine to the internet to simulate what happens when misconfigurations go unchecked in real-world environments. In enterprise environments, accidental exposure of resources like RDP or SSH is one of the most common and dangerous misconfigurations. To understand how attackers exploit these exposures, we intentionally allowed public access to a lab VM (r3dant-ls-lab6) for several days and monitored what happened. Throughout our investigation we were able to document the detection, analysis, and mitigation of brute force login attempts against our Azure VM. This scenario offers a hands-on look at cloud threat detection, incident response, and Microsoft security tools like Azure NSGs, Sentinel, and Defender for Endpoint.
+# 🛡️Internet-Facing VM Brute-Force Simulation
+
+In this project, we purposely exposed a virtual machine in our lab environment to the public internet to observe how quickly and how often attackers exploit misconfigurations in real-world environments.
+
+_**Inception State:**_ the VM (`r3dant-ls-lab6`) is assumed to be private; no alerts or indicators of compromise exist and the security team has not detected any unusual login activity.
+
+_**Completion State:**_ repeated brute-force attempts are identified from multiple external IPs. No logon succeeds, but the exposure is remediated: the public IP is removed, malicious addresses are blocked, MFA/NLA is enforced, Defender for Endpoint is deployed, Sentinel detection rules are created, and the activity is mapped to MITRE ATT&CK (`T1133`, `T1110.001`).
 
 ---
 
-### 🎯 Confirmed Activity:
-- Internet-facing VM (`r3dant-ls-lab6`) exposed for several days.
-- Multiple failed login attempts from suspicious IPs.
-- No evidence of successful compromise, but brute force activity confirmed.
+## Technology Utilized
+- **Microsoft Defender for Endpoint** (device telemetry, attack-surface reduction, live response)
+- **Azure Network Security Groups (NSGs)** (block malicious IPs, remove open RDP/SSH)
+- **Azure Portal** (public-IP removal, network reconfiguration)
+- **Kusto Query Language (KQL)** (log analysis and enrichment)
   
 ---
 
