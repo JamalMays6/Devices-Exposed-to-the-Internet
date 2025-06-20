@@ -16,6 +16,24 @@ _**Completion State:**_ repeated brute-force attempts are identified from multip
   
 ---
 
+## 📑 Table of Contents
+
+- [Internet-Facing VM Brute-Force Simulation](#️internet-facing-vm-brute-force-simulation)
+- [Technology Utilized](#technology-utilized)
+- [Initial Exposure Discovery](#-initial-exposure-discovery)
+- [Failed Login Analysis](#-failed-login-analysis)
+- [Successful Login Verification](#-successful-login-verification)
+- [Account Integrity Check](#-account-integrity-check)
+- [Final Assessment](#-final-assessment)
+- [MITRE ATT&CK Mapping](#-mitre-attck-mapping)
+- [Recommended Mitigations](#-recommended-mitigations)
+- [Summary Table](#-summary-table)
+
+
+
+---
+## 🔍 Initial Exposure Discovery
+
 To begin this project, we used Microsoft Defender for Endpoint and a few simple KQL queries to kick off our threat hunt. Our first step was querying the DeviceInfo table, which revealed that our lab VM (r3dant-ls-lab6) had been unintentionally exposed to the internet for several days. This raised immediate concerns and led us to investigate login activity, failed access attempts, and signs of brute force attacks. Here's one of the queries that we started with.
 
 
@@ -27,6 +45,7 @@ To begin this project, we used Microsoft Defender for Endpoint and a few simple 
 
 
 ---
+## 🚨 Failed Login Analysis
 
 Next, we pivoted to login activity to determine whether the exposed VM had been targeted by attackers.
 
@@ -42,8 +61,9 @@ The KQL query below shows how we identified the top offending IPs by summarizing
 
 
 ---
+## ✅ Successful Login Verification
 
-✅ With the failed login attempts identified, our next step was to determine whether any of those suspicious IP addresses had successfully logged into the VM.
+With the failed login attempts identified, our next step was to determine whether any of those suspicious IP addresses had successfully logged into the VM.
 
 Using the query below, we checked for successful logons from the top four offending IPs and confirmed that none of them were able to break in.
 This validated that the brute force attempts were unsuccessful, likely due to strong credentials and lack of open access permissions.
@@ -63,8 +83,9 @@ The only account observed making successful remote logons was labuser, our legit
 🧠 Insight: Because there were no failed logins for labuser, it's unlikely the account was guessed or brute-forced. This behavior is consistent with known, authorized access.
 
 ---
+## 🧪 Account Integrity Check
 
-🧪 Next, we validated the integrity of the legitimate account being used "labuser" to rule out any signs of compromise.
+Next, we validated the integrity of the legitimate account being used "labuser" to rule out any signs of compromise.
 
 First, we checked whether this account had experienced any failed login attempts. The result showed zero failures, which suggests that:
 
@@ -88,12 +109,15 @@ The results showed that all successful logons originated from known and trusted 
 
 ---
 
-## ✅ Final Assessment
+## 🧠 Final Assessment
 
 Though the device was exposed to the internet and clear brute force attempts took place, there is no evidence of any successful compromise or unauthorized access from the legitimate account labuser.
 
 This confirmed that our security configurations including strong credentials, limited user access, and network segmentation helped prevent an actual breach, even in the face of repeated login attempts.
 
+---
+
+## 🧩 MITRE ATT&CK Mapping
 ### A couple of the MITRE ATT&CK Tactics & Techniques Observed:
 | Technique ID   | Name                             |
 |----------------|----------------------------------|
@@ -101,7 +125,7 @@ This confirmed that our security configurations including strong credentials, li
 | `T1110.001`    | Brute Force: Password Guessing   |
 
 ---
-## ✅ Recommended Mitigations
+## 🔧 Recommended Mitigations
 
 ### 1. **Remove Internet Exposure (Containment)**
 - **Why:** Reduces external attack surface immediately.
@@ -111,7 +135,7 @@ This confirmed that our security configurations including strong credentials, li
   - Remove inbound **NSG rules** that allow RDP (3389) or SSH (22) from internet.
   - If remote access is required, restrict access to specific IPs or use a **Jump Box**.
 
----
+
 
 ### 2. **Block Malicious IPs (Containment)**
 - **Why:** Prevents repeated brute force attempts.
@@ -122,7 +146,7 @@ This confirmed that our security configurations including strong credentials, li
     - `200.105.196.189`
     - `181.115.190.30`
 
----
+
 
 ### 3. **Enable Network-Level Authentication + MFA (Recovery)**
 - **Why:** Adds a second layer of protection.
@@ -130,7 +154,7 @@ This confirmed that our security configurations including strong credentials, li
   - Enforce **MFA** via Entra ID (Azure AD).
   - Require **NLA (Network Level Authentication)** for all RDP connections.
 
----
+
 
 ### 4. **Audit All Logins & Accounts (Recovery + Detection)**
 - **Why:** Ensure no persistence was established via other accounts.
@@ -143,7 +167,7 @@ This confirmed that our security configurations including strong credentials, li
     | where AccountType == "User"
     ```
 
----
+
 
 ### 5. **Deploy Defender for Endpoint (Detection & Recovery)**
 - **Why:** Adds real-time protection and visibility into malicious behavior.
@@ -151,7 +175,7 @@ This confirmed that our security configurations including strong credentials, li
   - Onboard the VM to **Microsoft Defender for Endpoint**.
   - Enable **attack surface reduction rules** and **automated investigation**.
 
----
+
 
 ### 6. **Turn on Brute Force Detection Alerts in Microsoft Sentinel**
 - **Why:** Early warning system for future attempts.
@@ -168,7 +192,7 @@ This confirmed that our security configurations including strong credentials, li
 
 ---
 
-## 🚨 Summary Table
+## 📊 Summary Table
 
 | Action                          | Purpose                | Status    |
 |--------------------------------|------------------------|-----------|
@@ -181,7 +205,8 @@ This confirmed that our security configurations including strong credentials, li
 
 ---
 
-## 🧰 Tools to Use:
+## ⚙️ Tools to Use
+
 - Azure Portal (Networking, NSGs)
 - Microsoft Sentinel (Analytics Rules)
 - Microsoft Defender for Endpoint
