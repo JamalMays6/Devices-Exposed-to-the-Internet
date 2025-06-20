@@ -57,6 +57,7 @@ The KQL query below shows how we identified the top offending IPs by summarizing
 
 
 🧠 Insight: Brute force attacks often come in waves from a wide range of global IPs. Visualizing and counting failed login attempts helps identify targeted attack patterns early even if no login succeeds.
+
 ![image](https://github.com/user-attachments/assets/6a5af20e-bb1a-45b2-b988-759f1ab2b309)
 
 
