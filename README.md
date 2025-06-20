@@ -70,6 +70,7 @@ First, we checked whether this account had experienced any failed login attempts
 
 1) A brute force attempt targeting labuser likely didn’t occur
 2) A one-time password guess or credential stuffing attack is highly unlikely
+
 ✅ Result: 0 failed logons for labuser
 
 ![image](https://github.com/user-attachments/assets/d95fd2c8-7056-49ec-a3d0-0863578c1593)
