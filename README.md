@@ -1,6 +1,6 @@
 # 🛡️Internet-Facing VM Brute-Force Simulation
 
-In this project, we purposely exposed a virtual machine in our lab environment to the public internet to observe how quickly and how often attackers exploit misconfigurations in real-world environments.
+In this lab, we purposely exposed a virtual machine to the public internet to observe how quickly and how often attackers exploit misconfigurations in real-world environments.
 
 _**Inception State:**_ the VM (`r3dant-ls-lab6`) is assumed to be private; no alerts or indicators of compromise exist and the security team has not detected any unusual login activity.
 
