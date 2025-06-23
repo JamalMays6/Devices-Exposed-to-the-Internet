@@ -1,6 +1,6 @@
 # 🛡️Internet-Facing VM Brute-Force Simulation
 
-In this lab, we purposely exposed a virtual machine to the public internet to observe how quickly and how often attackers exploit misconfigurations in real-world environments.
+In this lab, I purposely exposed a virtual machine to the public internet to observe how quickly and how often attackers exploit misconfigurations in real-world environments.
 
 _**Inception State:**_ the VM (`r3dant-ls-lab6`) is assumed to be private; no alerts or indicators of compromise exist and the security team has not detected any unusual login activity.
 
@@ -34,7 +34,7 @@ _**Completion State:**_ repeated brute-force attempts are identified from multip
 ---
 ## 🔍 Initial Exposure Discovery
 
-To begin this project, we used Microsoft Defender for Endpoint and a few simple KQL queries to kick off our threat hunt. Our first step was querying the DeviceInfo table, which revealed that our lab VM (r3dant-ls-lab6) had been unintentionally exposed to the internet for several days. This raised immediate concerns and led us to investigate login activity, failed access attempts, and signs of brute force attacks. Here's one of the queries that we started with.
+To begin this project, I used Microsoft Defender for Endpoint and a few simple KQL queries to kick off our threat hunt. My first step was querying the DeviceInfo table, which revealed that our lab VM (r3dant-ls-lab6) had been unintentionally exposed to the internet for several days. This raised immediate concerns and led us to investigate login activity, failed access attempts, and signs of brute force attacks. Here's one of the queries that we started with.
 
 
 
@@ -47,9 +47,9 @@ To begin this project, we used Microsoft Defender for Endpoint and a few simple 
 ---
 ## 🚨 Failed Login Analysis
 
-Next, we pivoted to login activity to determine whether the exposed VM had been targeted by attackers.
+Next, I moved to login activity to determine whether the exposed VM had been targeted by attackers.
 
-Using the DeviceLogonEvents table, we filtered for failed logon attempts originating from external IP addresses. The results confirmed our suspicion: several unauthorized login attempts had been made against our machine, with multiple bad actors attempting to access the system remotely via RDP and other network logon methods.
+Using the DeviceLogonEvents table, I filtered for failed logon attempts originating from external IP addresses. The results confirmed our suspicion: several unauthorized login attempts had been made against our machine, with multiple bad actors attempting to access the system remotely via RDP and other network logon methods.
 
 The KQL query below shows how we identified the top offending IPs by summarizing failed logon attempts:
 
@@ -66,7 +66,7 @@ The KQL query below shows how we identified the top offending IPs by summarizing
 
 With the failed login attempts identified, our next step was to determine whether any of those suspicious IP addresses had successfully logged into the VM.
 
-Using the query below, we checked for successful logons from the top four offending IPs and confirmed that none of them were able to break in.
+Using the query below, I checked for successful logons from the top four offending IPs and confirmed that none of them were able to break in.
 This validated that the brute force attempts were unsuccessful, likely due to strong credentials and lack of open access permissions.
 
 ![image](https://github.com/user-attachments/assets/31f6b13c-68f7-4804-9808-af4d18d449ff)
@@ -75,7 +75,7 @@ This validated that the brute force attempts were unsuccessful, likely due to st
 
 
 
-We then looked at which accounts did log in successfully over the past 30 days.
+I then looked at which accounts did log in successfully over the past 30 days.
 The only account observed making successful remote logons was labuser, our legitimate, preconfigured test account and all 16 logins came from expected, trusted sources.
 
 ![image](https://github.com/user-attachments/assets/b4b96893-e9cd-40de-a4b1-32e9b0b4cef4)
@@ -86,9 +86,9 @@ The only account observed making successful remote logons was labuser, our legit
 ---
 ## 🧪 Account Integrity Check
 
-Next, we validated the integrity of the legitimate account being used "labuser" to rule out any signs of compromise.
+Next, I validated the integrity of the legitimate account being used "labuser" to rule out any signs of compromise.
 
-First, we checked whether this account had experienced any failed login attempts. The result showed zero failures, which suggests that:
+First, I checked whether this account had experienced any failed login attempts. The result showed zero failures, which suggests that:
 
 1) A brute force attempt targeting labuser likely didn’t occur
 2) A one-time password guess or credential stuffing attack is highly unlikely
@@ -98,7 +98,7 @@ First, we checked whether this account had experienced any failed login attempts
 ![image](https://github.com/user-attachments/assets/d95fd2c8-7056-49ec-a3d0-0863578c1593)
 
 
-🛰️ To complete our analysis, we inspected all successful logins made by labuser over the past 30 days and reviewed the originating IP addresses.
+🛰️ To complete our analysis, I inspected all successful logins made by labuser over the past 30 days and reviewed the originating IP addresses.
 Our objective was to identify any anomalous logins, such as those from unexpected regions or infrastructure.
 
 The results showed that all successful logons originated from known and trusted IP addresses, confirming no signs of unauthorized use.
