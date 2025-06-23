@@ -212,3 +212,14 @@ This confirmed that our security configurations including strong credentials, li
 - Microsoft Sentinel (Analytics Rules)
 - Microsoft Defender for Endpoint
 - Entra ID (MFA enforcement)
+
+## 🧑‍💼 Author
+
+Created by Jamal Mays  
+💻 Cybersecurity Engineer | ✨ Portfolio Builder
+
+---
+
+## ⭐ Like This Project?
+
+Give it a ⭐ on GitHub and connect with me on [LinkedIn](https://linkedin.com/in/jamal-mays/)!
